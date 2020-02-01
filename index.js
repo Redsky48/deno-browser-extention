@@ -144,6 +144,7 @@ define("app/dashboard/dashboard.component", ["require", "exports", "app/global.s
             value: 8
         }
     ];
+    values.naudaMaka = 100;
     class Dashboard {
         constructor(global, component_tag) {
             this.global = global;
@@ -153,7 +154,48 @@ define("app/dashboard/dashboard.component", ["require", "exports", "app/global.s
     }
     exports.Dashboard = Dashboard;
 });
-define("app/global.service", ["require", "exports"], function (require, exports) {
+define("app/listeners", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var document = window['document'];
+    class twowayBinds {
+    }
+    exports.twowayBinds = twowayBinds;
+    twowayBinds.binded = [];
+    twowayBinds.listeners = {};
+    function InitEventListener() {
+        for (let events of twowayBinds.binded) {
+            if (!twowayBinds.listeners[events.eventName]) {
+                console.log('adding ', events.eventName);
+                document.addEventListener(events.eventName, e => {
+                    let details = e.detail;
+                    console.log('eventRunned', e.srcElement.activeElement.value, details);
+                    // for textarea let text=e.srcElement.activeElement.innerText
+                    // console.log(text)
+                });
+                twowayBinds.listeners[events.eventName] = true;
+            }
+        }
+        console.log(twowayBinds.listeners);
+    }
+    exports.InitEventListener = InitEventListener;
+    function addEventToBind(eventName, value) {
+        twowayBinds.binded.push({
+            eventName,
+            value
+        });
+        InitEventListener();
+        // document.addEventListener('naudaMaka', e => {
+        //     console.log('eventRunned')
+        //     let details=e.detail
+        //     let text=e.srcElement.activeElement.innerText
+        //      console.log(details,text)
+        //   });
+        console.log(twowayBinds.binded);
+    }
+    exports.addEventToBind = addEventToBind;
+});
+define("app/global.service", ["require", "exports", "app/listeners"], function (require, exports, listeners_ts_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var document = window["document"];
@@ -200,7 +242,7 @@ define("app/global.service", ["require", "exports"], function (require, exports)
         });
         return "<style>" + fechedstyle + "</style>" + fechedHtml;
     }
-    function generateObjectHTML(HTMLString, values, component_tag) {
+    function generateObjectHTML(HTMLString, values) {
         let loopRegex = new RegExp(/([{]{1}[REPEAT^}][^}]*[}]{1})/g);
         let splitByREAPET = HTMLString.split(loopRegex);
         let getfuntion = HTMLString.match(loopRegex);
@@ -219,13 +261,13 @@ define("app/global.service", ["require", "exports"], function (require, exports)
                         let countKeys = 0;
                         for (let event of repietObject) { ///repietObject=[{value:{x:0,y:0,...data}}]
                             // console.log('itkā ok....',event,HTMLPeace)
-                            html += HTMLRegex(event, HTMLPeace, countKeys, component_tag);
+                            html += HTMLRegex(event, HTMLPeace, countKeys);
                             //  console.log('done successfull',html)
                             countKeys++;
                         }
                         continue;
                     }
-                    html += HTMLRegex(values, HTMLPeace, null, component_tag);
+                    html += HTMLRegex(values, HTMLPeace);
                     continue;
                 }
                 ///// {REAPEAT;let value of values} -> nogriez {} malas
@@ -254,12 +296,11 @@ define("app/global.service", ["require", "exports"], function (require, exports)
             }
         }
         else {
-            html += HTMLRegex(values, HTMLString, null, component_tag);
+            html += HTMLRegex(values, HTMLString);
         }
         return html;
     }
-    function HTMLRegex(JSONObject, HTML, i, component_tag) {
-        console.log(component_tag, JSONObject.olas);
+    function HTMLRegex(JSONObject, HTML, i) {
         //reggex prieks {{ ....  }}
         var regex = new RegExp(/([{]{2})([^}]*)([}]{2})/g);
         let dats = HTML.replace(regex, ((match, capture) => {
@@ -326,6 +367,24 @@ define("app/global.service", ["require", "exports"], function (require, exports)
             return stringValue;
             // //console.log(stringValue)
         }));
+        /////////here 2way binding
+        let bindingRegex = RegExp(/([\[][(][^=]*)([=])(["][^"]*["])/g);
+        dats = dats.replace(bindingRegex, ((match, capture) => {
+            let bindings = [];
+            let regexBindKey = new RegExp(/(["][^"]*["])/g);
+            //let values=['naudaMaka'];
+            console.log('atrada ', match);
+            let matchSplited = match.split(regexBindKey);
+            if (matchSplited[1]) {
+                let key = matchSplited[1];
+                key = key.substr(1, key.length - 2);
+                let keyValue = key.split('.');
+                console.log(key, JSONObject[key]);
+                listeners_ts_1.addEventToBind(key, keyValue.reduce(index, JSONObject));
+                return `oninput="document.dispatchEvent(new CustomEvent('` + key + `',{detail:{ component:'' }}))"`;
+            }
+        }));
+        ///////
         return dats;
     }
     function index(obj, i) {

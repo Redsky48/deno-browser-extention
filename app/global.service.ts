@@ -1,4 +1,5 @@
 import { values } from "./dashboard/dashboard.component.ts";
+import { addEventToBind, InitEventListener } from "./listeners.ts";
 
 var document = window["document"];
 var chrome = window["chrome"];
@@ -126,6 +127,10 @@ function HTMLRegex(JSONObject: any,HTML:any,i?:number): Promise<any>{
    // //console.log('p1',match)
     
 
+
+
+
+
     let needToCalculate=false
     let id2=(match.substr(2,match.length-4))
 
@@ -207,6 +212,30 @@ function HTMLRegex(JSONObject: any,HTML:any,i?:number): Promise<any>{
 // //console.log(stringValue)
   
  })); 
+
+
+ /////////here 2way binding
+ let bindingRegex=RegExp(/([\[][(][^=]*)([=])(["][^"]*["])/g);
+ dats=dats.replace(bindingRegex, ((match, capture)=> {
+   
+   let bindings=[]
+   let regexBindKey=new RegExp(/(["][^"]*["])/g)
+   //let values=['naudaMaka'];
+   console.log('atrada ',match)
+   let matchSplited=match.split(regexBindKey)
+    if(matchSplited[1]){
+     let key=matchSplited[1]
+       key=key.substr(1,key.length-2)
+      let keyValue=key.split('.')
+      console.log(key,JSONObject[key])
+      addEventToBind(key,keyValue.reduce(index, JSONObject))
+      return `oninput="document.dispatchEvent(new CustomEvent('`+key+`',{detail:{ component:'`+JSONObject.component_tag+`' }}))"`
+    }
+
+ 
+ 
+ }))
+ ///////
   
   return dats
 }
