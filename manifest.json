@@ -1,0 +1,26 @@
+{
+    "name": "Auto Tasker Deno",
+    "version": "2.0",
+    "manifest_version": 2,
+    "content_scripts": [
+      {
+        "run_at": "document_start",
+        "matches": ["<all_urls>"],
+        "js": ["index.js"],
+        "css":["style.css"]
+      }
+    ],
+    "browser_action": {
+      "default_title": "Auto Tasker Deno V2"
+    },
+    "background":{
+      "script":["background.js"]
+    },
+
+    "permissions": ["tabs"],
+    "web_accessible_resources": [
+      "*.svg",
+      "*.html",
+      "*.css"
+  ]
+  }

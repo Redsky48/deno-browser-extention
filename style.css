@@ -1,0 +1,171 @@
+
+.menuLinkAuto{
+    bacground:red;
+  }
+  .contextMenuAuto {
+    position: fixed;
+    width: 200px;
+    height: initial;
+    top: 0px;
+    left: 0px;
+    background-color: gray;
+    z-index: 100000000000;
+    text-align: center;
+    color: #d8d8d8;
+    padding: 5px;
+    display:none;
+    pointer-events: all;
+  }
+  .textareaAuto {
+    width: 96%;
+    height: auto;
+    margin: 2%;
+    border-radius: 5px;
+    border: 1px solid #80808054;
+    background:white;
+}
+  .menuLinkAuto {
+    border-bottom: 1px solid #ffffff78;
+    padding: 2px;
+  }
+  .menuLinkAuto:hover{
+    background:#ffffff30;
+  }
+  .link{
+    cursor:pointer;
+  }
+  .moveList {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    background: white;
+    z-index: 99999999999;
+    pointer-events: all;
+    display:none;
+  }
+  .movesTitleAuto {
+    font-size: 17px;
+    text-align: center;
+    background: none;
+    margin-top: 14px;
+  }
+  .moveListsPlaceAuto {
+      height: 90vh;
+      overflow: auto;
+      margin: 8px;
+      border-top: 1px solid #80808057;
+  }
+  .moveAutoItem {
+    margin-bottom: 16px;
+    background: #b1b1b140;
+  }
+  .moveAutoItem.active{
+    border: 1px solid red;
+  }
+  .selectorAuto {
+    font-size: 10px;
+    color: #ffffffd1;
+  }
+  .scrollYAuto,.timerAuto,.eventsAuto {
+    font-size: 13px;
+  }
+  .eventsAuto {
+    color: #ca8888;
+  }
+  .eventGroupAuto {
+    margin-left: 20%;
+    text-align: center;
+    width: 60%;
+    text-align: center;
+  }
+  .moveListsPlaceAuto::-webkit-scrollbar {
+    display: none;
+  }
+  .userDisabled{
+      user-select: none;
+      pointer-events: none;
+  }
+  .messageAuto {
+    color: red;
+    font-size: 20px;
+  }
+  .hideShowAuto.link {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999999999999999999;
+    background: #3a3a3a;
+    color: white;
+    font-size: 8px;
+    padding: 2px;
+    pointer-events: all;
+  }
+  .noSelectableAuto{
+      user-select: none;
+  }
+
+  .tooltipAuto{
+    position: fixed;
+    width:20px;
+    height:20px;
+    top:0px;
+    left:0px;
+    outline:1px solid red;
+    pointer-events: none;
+    z-index: 100000000000;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+
+  .clickCircleAuto{
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    top: 0px;
+    left: 0px;
+    background-color: red;
+    border-radius: 10px;
+    pointer-events: none;
+    transition: all .1s;
+    z-index: 100000000000
+  }
+  .locationAlert {
+    position: fixed;
+    top: 0;
+    width: 40%;
+    left: 30%;
+    background: whitesmoke;
+    text-align: center;
+    color: #ff3b3b;
+    font-size: 25px;
+    border: 1px solid;
+    display:none;
+    z-index: 999999900;
+}
+.deleteButtAuto {
+    text-align: right;
+    background: gray;
+    color: white;
+    padding-right: 10px;
+    cursor: pointer;
+    transition: all 1s;
+}
+.deleting{
+    opacity: 0.5;
+    zoom: 0.1;
+    transition: all 1s;
+}
+.idAuto {
+  position: absolute;
+  color: white;
+  margin-left: 7px;
+}
+
+.WrongUrl {
+  filter: grayscale(1);
+}
+.moveListsPlaceAuto {
+position: relative;
+}

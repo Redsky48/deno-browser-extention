@@ -1,0 +1,34 @@
+<div class="popup">
+  <div class="hello">
+    dashboard works
+  </div>
+   <div class="name">Vnk Bindings : {{myName}} </div> 
+    <div class="calc">
+
+      matematiska darb : (piens un olas kopā) {{piens+udens}} - 
+    </div>
+    <div class="shoppingList">
+      Loops Seit :
+      {REPEAT;let ola of olas}
+        <div class="ola">
+          {{ola.title}} - {{ola.value}}
+        </div>
+      {REPEAT}
+    </div>
+
+    piemēram index 2way Bind: 
+
+    <div class="bilance">
+      <input [(2wayBind)]="naudaMaka" type="text">
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
