@@ -1,27 +1,35 @@
 var document = window['document']
 export class twowayBinds{
      static binded=[
-         eventName:''
+        {
+            eventName:'naudaMaka',
+            value:444
+        }
      ]
-     static listeners=[]
+     static listeners={}
 }
 
 export function InitEventListener() {
-document.addEventListener('changeMoveText', e => {
-    //console.log('changing text',e)
-    let details=e.detail
    
-    
-    let text=e.srcElement.activeElement.innerText
-    let i =details.i
-    if(text && i){
-      GlobalVars.autoMoves[location.hostname][i].text=text
+    for(let events of twowayBinds.binded){
+
+        if(!twowayBinds.listeners[events.eventName]){
+            twowayBinds.listeners[events.eventName]=true
+            document.addEventListener(events, e => {
+                let details=e.detail
+                let text=e.srcElement.activeElement.innerText
+                 console.log(details,text)
+              });
+        }
     }
-    
-  
-  });
+
 }
 
-function addEventToBind(){
-    twowayBinds.binded.push()
+function addEventToBind(eventName,value){
+    twowayBinds.binded.push(
+        {
+            eventName,
+            value
+        }
+    )
 }
